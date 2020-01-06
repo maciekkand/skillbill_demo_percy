@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:8080",
+  "viewportWidth": 1600,
+  "viewportHeight": 900,
+  "video": false,
+  "screenshotsFolder": "cypress/snapshots",
+  "trashAssetsBeforeRuns": true,
+  "chromeWebSecurity": false
+}

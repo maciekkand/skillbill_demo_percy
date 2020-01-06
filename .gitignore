@@ -1,0 +1,43 @@
+.DS_Store
+node_modules
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.vscode
+
+/dist
+package-lock.json
+/cypress/integration/examples
+
+src/data/kategorie.txt
+wywalto.js
+tv1.json
+tv11.json
+tv22.json
+tv1.json
+wywalto.js
+tv1.json
+tv11.json
+.editorconfig
+tvNewCategories.json
+tv2.json
+1.js
+2.js
+src/assets/badge1.xcf
+_lint.js
+1.json
+2.json
+cypress/screenshots/examples/misc.spec.js/my-image.png
+cypress/screenshots/examples/misc.spec.js/my-image (1).png
+cSpell.json
+mockaroo.json
+mockaroo2.json
+mockaroo3.json
+cypress/integration/newTest.js

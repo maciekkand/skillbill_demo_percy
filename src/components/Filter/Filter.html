@@ -1,0 +1,44 @@
+<div id="filter">
+  <v-layout class="filters-row">
+    <div style="width: 230px"></div>
+
+    <v-flex xs12 sm1 d-flex offset-xs2>
+      <v-select data-test="filter_skill_1" v-model="skill1" :items="skills1" @change="onSkill1"
+        label="Skill 1" standard class="filters" clearable dense>
+      </v-select>
+    </v-flex>
+
+    <v-flex xs12 sm1 d-flex ml-2>
+      <v-select data-test="filter_rank_1" v-model="rank1" :items="ranks" @change="onRank1"
+        label="Rank 1" standard class="filters" clearable dense>
+      </v-select>
+    </v-flex>
+
+    <v-flex xs12 sm1 d-flex ml-2>
+      <v-select data-test="filter_skill_2" v-model="skill2" :items="skills2" @change="onSkill2"
+        label="Skill 2" standard class="filters" clearable dense>
+      </v-select>
+    </v-flex>
+
+    <v-flex xs12 sm1 d-flex ml-2>
+      <v-select data-test="filter_rank_2" v-model="rank2" :items="ranks" @change="onRank2"
+        label="Rank 2" standard class="filters" clearable dense>
+      </v-select>
+    </v-flex>
+
+    <v-flex xs12 sm1 d-flex ml-2>
+      <v-select data-test="filter_skill_3" v-model="skill3" :items="skills3" @change="onSkill3"
+        label="Skill 3" standard class="filters" clearable dense>
+      </v-select>
+    </v-flex>
+
+    <v-flex xs12 sm1 d-flex ml-2>
+      <v-select data-test="filter_rank_3" v-model="rank3" :items="ranks" @change="onRank3"
+        label="Rank 3" standard class="filters" clearable dense>
+      </v-select>
+    </v-flex>
+
+    <v-btn data-test="btnSearch" @click="onSearch" color="primary" dark class="mt-3 ml-1 mr-0">Search</v-btn>
+    <v-btn data-test="btnClear" @click="onClear" color="primary" dark class="mt-3 mr-4">Clear</v-btn>
+  </v-layout>
+</div>

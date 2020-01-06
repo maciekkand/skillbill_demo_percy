@@ -1,0 +1,156 @@
+<div id="table">
+  <v-app class="mx-0 my-1">
+    <div>
+
+      <v-dialog v-model="dialog" max-width="700px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">{{ formTitle }}</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field data-test="first" v-model="editedItem.first" label="First"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field data-test="last" v-model="editedItem.last" label="Last"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select data-test="title" v-model="editedItem.title" :items="title"
+                    label="Title" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field data-test="email" v-model="editedItem.email" label="Email"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select  data-test="skill1" v-model="editedItem.skill1" :items="skills"
+                    label="Skill 1" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select data-test="rank1" v-model="editedItem.rank1" :items="ranks"
+                    label="Rank 1" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select data-test="skill2" v-model="editedItem.skill2" :items="skills"
+                    label="Skill 2" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select data-test="rank2" v-model="editedItem.rank2" :items="ranks"
+                    label="Rank 2" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select data-test="skill3" v-model="editedItem.skill3" :items="skills"
+                    label="Skill 3" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select data-test="rank3" v-model="editedItem.rank3" :items="ranks"
+                    label="Rank 3" standard class="filters" clearable dense>
+                  </v-select>
+                </v-flex>
+
+              </v-layout>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn data-test="btnCancel" color="blue darken-1" flat @click="onNewDevClose">Cancel</v-btn>
+            <v-btn data-test="btnSave" color="blue darken-1" flat @click="onNewDevSave">Save</v-btn>
+          </v-card-actions>
+
+        </v-card>
+      </v-dialog>
+
+      <v-dialog v-model="calendar"
+                color="blue"
+                header-color="primary"
+                landscape="false"
+                max-width="320px">
+
+        <v-card>
+          <v-card-title>
+            <h3 id="calendar_heading">#{{ devId }}&nbsp;&nbsp;&nbsp;&nbsp;{{ devFirst }} {{ devLast }} </h3>
+
+            <v-date-picker v-model="picker"
+                           :landscape="false"
+                           :reactive="true"
+                           multiple
+                           min="2019-01-15"
+                           max="2020-12-31">
+            </v-date-picker>
+
+          </v-card-title>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="onCalendarClose">Cancel</v-btn>
+            <v-btn color="blue darken-1" flat @click="onCalendarSave">Save</v-btn>
+          </v-card-actions>
+
+        </v-card>
+      </v-dialog>
+
+      <v-data-table :headers="headers"
+                    :items="devs"
+                    :loading="progressBar"
+                    v-model="selected"
+                    class="elevation-6"
+                    hide-actions
+                    dark>
+
+        <template slot="items" slot-scope="props">
+          <tr @dblclick="onDblClick(props.item)">
+            <td class="text-xs-left body-2">{{ props.item.id }}</td>
+            <td class="text-xs-left body-2">{{ props.item.title }}</td>
+            <td class="text-xs-left body-2">{{ props.item.first }}</td>
+            <td class="text-xs-left body-2">{{ props.item.last }}</td>
+            <td class="text-xs-left body-2">{{ props.item.skill1 }}</td>
+            <td class="text-xs-left body-2">{{ props.item.rank1 }}</td>
+            <td class="text-xs-left body-2">{{ props.item.skill2 }}</td>
+            <td class="text-xs-left body-2">{{ props.item.rank2 }}</td>
+            <td class="text-xs-left body-2">{{ props.item.skill3 }}</td>
+            <td class="text-xs-left body-2">{{ props.item.rank3 }}</td>
+
+            <td class="text-xs-left body-2">
+              <v-img :src = "props.item.picture" aspect-ratio="1"></v-img>
+            </td>
+
+            <td class="justify-center layout px-0">
+
+              <v-icon data-test="edit" small class="mr-3" @click="onEdit(props.item)" title="edit">
+                edit
+              </v-icon>
+
+              <v-icon small class="mr-3" @click="onCalendar(props.item)" title="calendar">
+                calendar_today
+              </v-icon>
+
+              <v-icon small @click="onDelete(props.item)" title="delete">
+                delete
+              </v-icon>
+            </td>
+
+          </tr>
+        </template>
+      </v-data-table>
+    </div>
+  </v-app>
+</div>
