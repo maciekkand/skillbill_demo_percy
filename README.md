@@ -22,7 +22,7 @@
 
   Because of restrictions caused by corporate proxies, use below quick fix:
 
-    1. git clone git@github.build.ge.com:cicada/e2e.git
+    1. git clone ..
     2. export NODE_TLS_REJECT_UNAUTHORIZED=0 (or ‘set’ for Windows)
     3. npm i
     4. set NODE_TLS_REJECT_UNAUTHORIZED=1 (reenables checking TLS certificates)
