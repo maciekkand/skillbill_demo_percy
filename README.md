@@ -1,4 +1,4 @@
-# Cypress: hands-on instruction (BDD, visual regression)
+# Cypress: hands-on instruction (plain test, BDD, visual regression)
 
 [1. Installation](#1-Installation)
 
@@ -22,27 +22,40 @@
 
   Because of restrictions caused by corporate proxies, use below quick fix:
 
-    1. git clone ...
+    1. git clone git@github.build.ge.com:cicada/e2e.git
     2. export NODE_TLS_REJECT_UNAUTHORIZED=0 (or ‘set’ for Windows)
     3. npm i
     4. set NODE_TLS_REJECT_UNAUTHORIZED=1 (reenables checking TLS certificates)
-    5. npm i json-server (or npm i -g json-server)
 
 ## 2. Usage
 
-  To start Cypress, you need to start your project first
-  In case of this particular project, since json data is served from local server, start json-server first
+  Since json data is served from local server, start json-server first,
+  follow with starting the app and then run Cypress test
+  You may run each task in:
+  **2.1) separate terminal windows**
 
-    1. json-server db2.json (starts local json server with db2.json data)
+    1. npm run json         (starts local json server with db2.json data)
     2. npm run serve        (starts the application)
-    3. npx cypress open     (starts cypress in headful mode; select Electron)
-       or npx cypress run   (starts cypress in headless mode)
+    3. npm run cyo          (starts cypress in headful mode; select Electron)
+       or npm run cyr       (starts cypress in headless mode with plain test)
+       or npm run cyrbdd    (starts cypress in headless mode with  test)
+
+  **2.2) run json-server and the app in one window and test in another**
+
+      npm run json_and_serve
+      npm run cyo  or
+      npm run cyr  or
+      npm run cyrbdd
+
+  **2.3) .. or if for some reason you want all of them in one window**
+
+      npm run all (edit 'all' script if you want to run script other than 'cyr')
 
 ## 3. Example test and key commands
 
   Tests should be stored in **/cypress/integration/** folder and should have **'.spec.js'** suffix
 
-  Please open: cypress/integration/skillbill.spec.js file
+  [skillbill.spec.js](./cypress/integration/skillbill.spec.js)
 
 ### I. Commands
 
@@ -54,6 +67,10 @@
 
   Each cypress command starts from 'cy.' prefix (unless it is chained from 'cy.' command)
 
+  In order to restrict tests performed to the selected one, add suffix '.only' to the 'it' command.
+
+  In order to skip selected tests, add suffix '.skip' to the 'it' command.
+
       describe('I. Dev skills filtering', () => {
         it.only('1. .. selecting Go=4, JS=2 and Android=1, should get at least 3 devs' +
           ' and pressing Clear button should clear all the select boxes', () => {
@@ -62,7 +79,9 @@
           })
       })
 
-  [The most frequently used commands](https://docs.cypress.io/api/commands/and.html#Syntax)
+  [All commands](https://docs.cypress.io/api/commands/and.html#Syntax)
+
+  **The most frequently used commands:**
 
   **1. cy.log(text)**
 
@@ -75,33 +94,33 @@
 
   **3. cy.get(el)**
 
-    Get one or more DOM elements by selector or alias
+    Get one or more DOM elements, by selector or alias
       ex: cy.get("[data-test='filter_skill_1']")
 
   **4. cy.click(el) and cy.dblclick(el)**
 
-    Click DOM element
+    Click the DOM element
 
   **5. cy.scrollTo(x, y)**
 
-    Scroll to a specific position
+    Scroll to a specific location
 
   **6. cy.type(text)**
 
-    Type into a DOM element
+    Type into the DOM element
 
   **7. cy.focus(el)**
 
-    Focus on a DOM element
+    Focus on the DOM element
 
   **8. cy.trigger(eventName)**
 
-    Trigger an event on a DOM element
+    Trigger an event on the DOM element
       ex: cy.get('a').trigger('mousedown')
 
   **9. .should()**
 
-   Create an [assertion](https://docs.cypress.io/guides/references/assertions.html#Chai). Assertions are automatically retried until they pass or time out
+   Create an [assertion](https://docs.cypress.io/guides/references/assertions.html#Chai). They are automatically retried, until they pass or time out
 
     ex: cy.get('el').should('contain', 'Go')
 
@@ -120,12 +139,12 @@
 
 ### II. Selectors
 
-  [Selecting-Elements](https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements)
+  [Selecting elements](https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements)
 
-  To avoid issues with CSS selectors, which may change their names or be remove each DOM element which might be selected by Cypress, should have 'data-test' or 'data-cy' attribute
+  To avoid issues with CSS selectors, which may change their names or be removed, each DOM element which might be selected by Cypress, should have 'data-test' or 'data-cy' attribute
 
     ex HTML:    <v-text-field data-test="email"></v-text-field>
-       cypress: cy.get("[data-test='email']")
+       Cypress: cy.get("[data-test='email']")
 
 ## 4. Headful vs headless
 
@@ -133,11 +152,11 @@
 
   a) headful - with GUI including browser window (for test debugging)
 
-  b) headless - with command line environment only (for regular testing, once test is working properly)
+  b) headless - with command line environment only (for regular testing, once the test is working properly)
 
-    npx cypress open (opens GUI for headful mode)
+    npm run cyo (or npx cypress open - opens GUI for headful mode)
     npx cypress run  (executes all tests in command line)
-    npx cypress run --spec **/skillbill*.* (executes only selected test(s))
+    npm run cyr (or npx cypress run --spec **/skillbill*.*  - executes only selected test(s))
 
 ## 5. BDD
 
@@ -179,7 +198,7 @@
 
       5. Create .feature file containing BDD scenario, in the follwoing format:
 
-          cypress/integration/SkillBill.feature:
+          [SkillBill.feature](./cypress/integration/SkillBill.feature)
 
           Feature: The SkillBill
 
@@ -227,26 +246,36 @@
 ```
 
       7. run cypress headful and click on SkillBill.feature:
-           npx cypress open
+           npm run cyo
 
       8.  run cypress headless, selecting only SkillBill.feature file:
-           npx cypress run --spec "**/SkillBill.feature"
+           npm run cyrbdd
 
 ## 6. Plain test vs BDD test
 
   Below are screenshots from headful execution of plain test and BDD test.
   As you may see, at the execution level, they do not differ much
 
-  ### 1. Headful: plain test
+  ### 6.1 Headful: plain test
+
+  [skillbill.spec.js](./cypress/integration/skillbill.spec.js)
+
   ![tdd](./src/assets/tdd.png)
 
-  ### 2. Headful: BDD test
+  ### 6.2 Headful: BDD test
+
+  [SkillBill.feature](./cypress/integration/SkillBill.feature)
+
+  [test.js](./cypress/integration/SkillBill/test.js)
+
   ![bdd](./src/assets/tdd.png)
 
-  ### 3. Headless: plain test
+  ### 6.3 Headless: plain test
+
   ![cmd-tdd](./src/assets/cmd-tdd.png)
 
-  ### 4. Headless: BDD test
+  ### 6.4 Headless: BDD test
+
   ![cmd-bdd](./src/assets/cmd-bdd.png)
 
   **BDD pros:**
@@ -267,15 +296,14 @@
 
   Visual regression solution lets you avoid mistakenly introducing even tiny graphical changes like a letter, dot, pixel color, margin or padding size
 
-  Cypress webpage, lists 4 npm packages:
+  Cypress webpage lists 4 npm packages:
 
       1. cypress-image-snapshot
       2. cypress-visual-regression
       3. cypress-plugin-snapshots
       4. cypress-blink-test
 
-  Unfortunately, due to buggy Cypress screenshot engine, all above npm packages show frequent false-positives
-  (see Cypress issues:
+  Unfortunately, due to buggy Cypress screenshot engine, all above npm packages show frequent false-positives (no changes introduced, but the package shows difference. See Cypress issues:
   [5876](https://github.com/cypress-io/cypress/issues/5876),
   [2176](https://github.com/cypress-io/cypress/issues/2175)
   )
@@ -302,7 +330,7 @@
 
   1. export PERCY_TOKEN=the_token (see 3.)
 
-  2. npx percy exec -- cypress run --spec **/skillbill.spec.js
+  2. npm run cyp (or npx percy exec -- cypress run --spec **/skillbill.spec.js)
 
   3. ctrl (cmd) + click on displayed link or
        open percy.io > your project name > Builds tab and click on '1 total snapshot' link
@@ -336,23 +364,25 @@
 
     Historically, Electron has been much more stable, than the others
 
-### 2. Why so ugly CSS selectors as below?
+### 2. Why so ugly CSS selectors as below:
 
     cy.get('div.menuable__content__active div:nth-child(4) a div div')
 
    .. instead of recommended here 'data-*' attribute ?
 
-    The reason is vuetify. Some of its controls are not native HTML ones, but mixture of divs. For example 'select' dropdown.
-    Because of that, one can not asssign class nor id to them, so quick fix is to use CSS selector
+    The reason is Vuetify. Some of its controls are not native HTML ones, but dynamically generated mix of divs.
+    For example <v-select> dropdown. Because of that, one can not asssign class nor id to them,
+    which would be working in Cypress, so quick fix is to use CSS selector
 
 ### 3. Why wait's are used?
 
     For the most part, Cypress does a good job waiting long enough (4 secs by default), so DOM elements are there.
 
-    Sometimes however, Cypress acts quicker than browser's rendering engine and some artifacts still remain on the screen,
-    while in reality they would already be hidden. In most cases, delays of 200-1,000 ms are sufficient.
+    Sometimes however, Cypress acts quicker than browser's rendering engine and some artifacts still remain
+    on the screen, while in reality they would already be hidden. In most of cases, delay of 200-1,000 ms
+    is sufficient.
 
-### 4. Why scrollTo was used?
+### 4. Why 'scrollTo' was used?
 
     Sometimes, Cypress incorrectly scrolls the window down, making top part of the window not visible.
-    Quick fix, is to use scrollTo(0,0) then.
+    Quick fix is to use scrollTo(0,0), then.

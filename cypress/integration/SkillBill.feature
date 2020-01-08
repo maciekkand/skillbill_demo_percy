@@ -1,12 +1,5 @@
 Feature: The SkillBill
 
-  I want to open SkillBill page
-
-  # Scenario: Opening SkillBill page
-  #   Given I open SkillBill page
-  #   Then I see "SkillBill" in the title
-
-
   Scenario: Testing database filtering
     Given I open SkillBill page
 
