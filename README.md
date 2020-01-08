@@ -32,6 +32,7 @@
   Since json data is served from local server, start json-server first,
   follow with starting the app and then run Cypress test
   You may run each task in:
+  
   **2.1) separate terminal windows**
 
     1. npm run json         (starts local json server with db2.json data)
